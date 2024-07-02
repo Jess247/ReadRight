@@ -1,0 +1,48 @@
+$bg-clr: #202020;
+$txt-clr: #fefefe;
+$txt-dark: #0e0e0e;
+
+// theme colors
+$dark-theme: $bg-clr;
+$light-theme: $txt-clr;
+$peach-theme: #ffdda1;
+$yellow-theme: #f9ffd5;
+$blue-theme: #bde0fe;
+
+
+@mixin flex($dir) {
+    @if($dir == 'col') {
+        flex-direction: column;
+    }
+    @if($dir == 'row') {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+@mixin theme($clr) {
+    @if($clr == 'dark') {
+        background: $dark-theme;
+        border: 1px solid $light-theme;
+    }
+    @if($clr == 'light') {
+        background: $light-theme;
+        color: $txt-dark;
+    }
+    @if($clr == 'peach') {
+        background: $peach-theme;
+        color: $txt-dark;
+    }
+    @if($clr == 'yellow') {
+        background: $yellow-theme;
+        color: $txt-dark;
+    }
+    @if($clr == 'blue') {
+        background: $blue-theme;
+        color: $txt-dark;
+    }
+}
