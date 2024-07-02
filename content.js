@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             '.ad', 
             '.ads',
             '.adthrive-ad',
-            '#cls-video', 
+            '[id*="cls-video"]', 
             '[id^="ad-"]',
             '[id^="-ad"]',
             '[id^="-Ad"]', 
