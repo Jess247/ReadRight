@@ -37,13 +37,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         document.body.style.fontFamily = request.fontFamily;
         document.body.style.fontSize = request.fontSize;
         document.body.style.lineHeight = request.lineHeight;
+        //sendResponse({ message: 'Readability enhanced' });
+    }
+
+    if(request.action === "changeTheme") {
         document.querySelectorAll("*").forEach(el => {
             el.style.backgroundColor = request.background
             el.style.color = request.color
-        }) 
-        console.log(request.isOn)
-
-        //sendResponse({ message: 'Readability enhanced' });
+        })
     }
 
     if (request.action === "removeAds") {
