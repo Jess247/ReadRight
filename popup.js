@@ -6,9 +6,11 @@ document.getElementById('adjustFonts').addEventListener('click', () => {
         chrome.tabs.sendMessage(tabs[0].id, {
             action: "adjustFonts",
             fontFamily: "Arial, sans-serif",
-            fontSize: "1.3rem",
-            lineHeight: "1.6",
-            letterSpacing: ""
+            fontSize: "1.2rem",
+            lineHeight: "1.5em",
+            letterSpacing: ".1em",
+            wordSpacing: ".8rem",
+            fontStyle: "normal"
         });
     });
 });

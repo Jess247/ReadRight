@@ -25,7 +25,6 @@ const removeAds = () => {
         document.querySelectorAll(selector).forEach(el => {
             if (el.parentNode) {
                 el.parentNode.removeChild(el);
-                console.log(el)
             }
         });
     });
@@ -33,10 +32,32 @@ const removeAds = () => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "adjustFonts") {
+        const paragraphs = document.querySelectorAll('p')
+        const emElements = document.querySelectorAll('em')
         removeAds()
+
         document.body.style.fontFamily = request.fontFamily;
         document.body.style.fontSize = request.fontSize;
-        document.body.style.lineHeight = request.lineHeight;
+        paragraphs.forEach(el => {
+            const words = el.textContent.split(" ")
+            const wordEl = words.map(word => {
+                if(word.length > 0) {
+                    return `<b>${word[0]}</b>${word.slice(1, word.length)}`
+                }
+                return word
+            })
+            el.innerHTML = wordEl.join(" ")
+            console.log(el)
+            
+            el.style.lineHeight = request.lineHeight
+            el.style.fontStyle = request.fontStyle
+        })
+
+        emElements.forEach(el => {
+            el.style.fontStyle = request.fontStyle
+        })
+        document.body.style.letterSpacing = request.letterSpacing
+        document.body.style.wordSpacing = request.wordSpacing
         //sendResponse({ message: 'Readability enhanced' });
     }
 
