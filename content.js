@@ -30,28 +30,54 @@ const removeAds = () => {
     });
 }
 
+
+const boldFirstLetter = (node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+        const words = node.textContent.split(' ');
+        const newWords = words.map(word => {
+            if (word.length > 0) {
+                return `<span class="bold">${word[0]}</span>${word.slice(1)}`
+            }
+            return word;
+        });
+        const span = document.createElement('span');
+        span.innerHTML = newWords.join(' ');
+        return span;
+    } else {
+        const newNode = node.cloneNode();
+        node.childNodes.forEach(child => {
+            newNode.appendChild(boldFirstLetter(child));
+        });
+        return newNode;
+    }
+};
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "adjustFonts") {
-        const paragraphs = document.querySelectorAll('p')
+        const paragraphEls = document.querySelectorAll('p')
+        const listEls = document.querySelectorAll('li')
+        const divEls = document.querySelectorAll('div')
         const emElements = document.querySelectorAll('em')
+        
         removeAds()
+
+        paragraphEls.forEach(el => {
+            const newElement = boldFirstLetter(el);
+            el.replaceWith(newElement);
+        })
+
+        listEls.forEach(el => {
+            const newElement = boldFirstLetter(el);
+            el.replaceWith(newElement);
+        })
+
+        // divEls.forEach(el => {
+        //     const newElement = boldFirstLetter(el);
+        //     el.replaceWith(newElement);
+        // })
 
         document.body.style.fontFamily = request.fontFamily;
         document.body.style.fontSize = request.fontSize;
-        paragraphs.forEach(el => {
-            const words = el.textContent.split(" ")
-            const wordEl = words.map(word => {
-                if(word.length > 0) {
-                    return `<b>${word[0]}</b>${word.slice(1, word.length)}`
-                }
-                return word
-            })
-            el.innerHTML = wordEl.join(" ")
-            console.log(el)
-            
-            el.style.lineHeight = request.lineHeight
-            el.style.fontStyle = request.fontStyle
-        })
 
         emElements.forEach(el => {
             el.style.fontStyle = request.fontStyle

@@ -9,8 +9,9 @@ document.getElementById('adjustFonts').addEventListener('click', () => {
             fontSize: "1.2rem",
             lineHeight: "1.5em",
             letterSpacing: ".1em",
-            wordSpacing: ".8rem",
-            fontStyle: "normal"
+            wordSpacing: ".5em",
+            fontStyle: "normal",
+            fontWeight: "800"
         });
     });
 });
