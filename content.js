@@ -30,13 +30,12 @@ const removeAds = () => {
     });
 }
 
-
 const boldFirstLetter = (node) => {
     if (node.nodeType === Node.TEXT_NODE) {
         const words = node.textContent.split(' ');
         const newWords = words.map(word => {
-            if (word.length > 0 ) {
-                return `<span id="bold">${word[0]}</span>${word.slice(1)}`
+            if (word.length > 0) {
+                return `<span id="bold">${word[0]}</span>${word.slice(1)}`;
             }
             return word;
         });
@@ -44,7 +43,7 @@ const boldFirstLetter = (node) => {
         span.innerHTML = newWords.join(' ');
         return span;
     } else {
-        const newNode = node.cloneNode();
+        const newNode = node.cloneNode(false); // Shallow clone to avoid duplicating child nodes
         node.childNodes.forEach(child => {
             newNode.appendChild(boldFirstLetter(child));
         });
@@ -52,36 +51,36 @@ const boldFirstLetter = (node) => {
     }
 };
 
+
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "adjustFonts") {
         const paragraphEls = document.querySelectorAll('p')
         const listEls = document.querySelectorAll('li')
         const divEls = document.querySelectorAll('div')
         const emElements = document.querySelectorAll('em')
+        const body = document.body
+        
+        const newBody = boldFirstLetter(body);
+        body.replaceWith(newBody);  
 
-        paragraphEls.forEach(el => {
-            const newElement = boldFirstLetter(el);
-            el.replaceWith(newElement);
-        })
+        // adjust hmtl tag font
+        document.documentElement.style.setProperty('font-family', request.fontFamily, 'important')
 
-        listEls.forEach(el => {
-            const newElement = boldFirstLetter(el);
-            el.replaceWith(newElement);
-        })
+        
 
-        // divEls.forEach(el => {
-        //     const newElement = boldFirstLetter(el);
-        //     el.replaceWith(newElement);
-        // })
+        document.documentElement.style.fontSize = request.fontSize;
 
-        document.body.style.fontFamily = request.fontFamily;
-        document.body.style.fontSize = request.fontSize;
+        // adjust body fonts
+        document.body.style.setProperty('font-family', request.fontFamily, 'important');
+        divEls.forEach(el => el.style.fontFamily = 'inherit')
+        body.style.letterSpacing = request.letterSpacing
+        body.style.wordSpacing = request.wordSpacing
+        
+        // adjust inline elements
+        paragraphEls.forEach(el => el.style.setProperty('font-style', request.fontStyle, 'important'))
+        emElements.forEach(el => el.style.fontStyle = request.fontStyle)
 
-        emElements.forEach(el => {
-            el.style.fontStyle = request.fontStyle
-        })
-        document.body.style.letterSpacing = request.letterSpacing
-        document.body.style.wordSpacing = request.wordSpacing
         sendResponse({ message: 'Readability enhanced' });
     }
 
@@ -92,7 +91,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         })
     }
 
-    if (request.action === "removeAds") {
+    if (request.action === "setDefault") {
         removeAds()
     }
 });

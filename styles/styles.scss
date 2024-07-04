@@ -5,8 +5,12 @@ body {
     color: $txt-clr;
     width: 350px;
     border-radius: 8px;
-    background: none;
+    background-color: $bg-clr;
+    border-radius: 8px;
+    margin-top: 1em;
+
 }
+
 
 .btn, .btns__btn {
     padding: .5em 1em;
@@ -18,11 +22,13 @@ body {
     font-weight: bold;
 }
 
+#adjustFonts:disabled {
+    background: $btn-disabled;
+}
+
 .main {
     text-align: center;
     padding: 2em 0;
-    background-color: $bg-clr;
-    border-radius: 8px;
 }
 
 .container {

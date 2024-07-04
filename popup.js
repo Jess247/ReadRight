@@ -1,11 +1,15 @@
 
 let isOn = false
 
+function disableBtn(btnId) {
+    document.getElementById(btnId).disabled = true
+}
+
 document.getElementById('adjustFonts').addEventListener('click', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(tabs[0].id, {
             action: "adjustFonts",
-            fontFamily: "Arial, sans-serif",
+            fontFamily:'Arial, Helvetica, sans-serif',
             fontSize: "1.2rem",
             lineHeight: "1.5em",
             letterSpacing: ".1em",
@@ -14,6 +18,8 @@ document.getElementById('adjustFonts').addEventListener('click', () => {
             fontWeight: "800"
         });
     });
+
+    disableBtn('adjustFonts')
 });
 
 document.getElementById('dark').addEventListener('click', () => {

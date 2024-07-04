@@ -18,7 +18,9 @@ body {
   color: #fefefe;
   width: 350px;
   border-radius: 8px;
-  background: none;
+  background-color: #202020;
+  border-radius: 8px;
+  margin-top: 1em;
 }
 
 .btn, .btns__btn {
@@ -31,11 +33,13 @@ body {
   font-weight: bold;
 }
 
+#adjustFonts:disabled {
+  background: #535353;
+}
+
 .main {
   text-align: center;
   padding: 2em 0;
-  background-color: #202020;
-  border-radius: 8px;
 }
 
 .container {
