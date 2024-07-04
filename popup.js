@@ -75,13 +75,3 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 });
 
-// $bg-clr: #202020;
-// $txt-clr: #fefefe;
-// $txt-dark: #0e0e0e;
-
-// // theme colors
-// $dark-theme: $bg-clr;
-// $light-theme: $txt-clr;
-// $peach-theme: #ffdda1;
-// $yellow-theme: #f9ffd5;
-// $blue-theme: #bde0fe;

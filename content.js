@@ -35,8 +35,8 @@ const boldFirstLetter = (node) => {
     if (node.nodeType === Node.TEXT_NODE) {
         const words = node.textContent.split(' ');
         const newWords = words.map(word => {
-            if (word.length > 0) {
-                return `<span class="bold">${word[0]}</span>${word.slice(1)}`
+            if (word.length > 0 ) {
+                return `<span id="bold">${word[0]}</span>${word.slice(1)}`
             }
             return word;
         });
@@ -58,8 +58,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const listEls = document.querySelectorAll('li')
         const divEls = document.querySelectorAll('div')
         const emElements = document.querySelectorAll('em')
-        
-        removeAds()
 
         paragraphEls.forEach(el => {
             const newElement = boldFirstLetter(el);
@@ -84,7 +82,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         })
         document.body.style.letterSpacing = request.letterSpacing
         document.body.style.wordSpacing = request.wordSpacing
-        //sendResponse({ message: 'Readability enhanced' });
+        sendResponse({ message: 'Readability enhanced' });
     }
 
     if(request.action === "changeTheme") {
