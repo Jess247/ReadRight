@@ -6,14 +6,16 @@ function disableBtn(btnId) {
 }
 
 document.getElementById('adjustFonts').addEventListener('click', () => {
+    const infoText = document.querySelector('.container__info-text')
+    infoText.textContent = "Refresh page to go back to original styles."
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(tabs[0].id, {
             action: "adjustFonts",
             fontFamily:'Arial, Helvetica, sans-serif',
             fontSize: "1.2rem",
-            lineHeight: "1.5em",
+            lineHeight: "1.5",
             letterSpacing: ".1em",
-            wordSpacing: ".5em",
+            wordSpacing: ".3em",
             fontStyle: "normal",
             fontWeight: "800"
         });

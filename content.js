@@ -55,30 +55,32 @@ const boldFirstLetter = (node) => {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "adjustFonts") {
+        const body = document.body
         const paragraphEls = document.querySelectorAll('p')
-        const listEls = document.querySelectorAll('li')
         const divEls = document.querySelectorAll('div')
         const emElements = document.querySelectorAll('em')
-        const body = document.body
         
-        const newBody = boldFirstLetter(body);
-        body.replaceWith(newBody);  
 
+
+        
+        // first letter bold
+        const newBody = boldFirstLetter(body)
+        body.replaceWith(newBody)
+        
         // adjust hmtl tag font
         document.documentElement.style.setProperty('font-family', request.fontFamily, 'important')
-
+        document.documentElement.style.fontSize = request.fontSize
         
-
-        document.documentElement.style.fontSize = request.fontSize;
-
         // adjust body fonts
-        document.body.style.setProperty('font-family', request.fontFamily, 'important');
+        document.body.style.setProperty('font-family', request.fontFamily, 'important')
+
         divEls.forEach(el => el.style.fontFamily = 'inherit')
         body.style.letterSpacing = request.letterSpacing
         body.style.wordSpacing = request.wordSpacing
         
         // adjust inline elements
         paragraphEls.forEach(el => el.style.setProperty('font-style', request.fontStyle, 'important'))
+
         emElements.forEach(el => el.style.fontStyle = request.fontStyle)
 
         sendResponse({ message: 'Readability enhanced' });
@@ -91,7 +93,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         })
     }
 
-    if (request.action === "setDefault") {
+    if (request.action === "removeAds") {
         removeAds()
     }
 });

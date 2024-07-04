@@ -36,6 +36,8 @@ body {
     @include flex(col);
     width: 85%;
 
+    
+
     .btn {
         transition: transform .5s;
     }
