@@ -69,14 +69,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         
         // adjust hmtl tag font
         document.documentElement.style.setProperty('font-family', request.fontFamily, 'important')
+        document.documentElement.style.setProperty('letter-spacing', request.letterSpacing, 'important')
+        document.documentElement.style.setProperty('word-spacing', request.wordSpacing, 'important')
         document.documentElement.style.fontSize = request.fontSize
         
         // adjust body fonts
         document.body.style.setProperty('font-family', request.fontFamily, 'important')
 
         divEls.forEach(el => el.style.fontFamily = 'inherit')
-        body.style.letterSpacing = request.letterSpacing
-        body.style.wordSpacing = request.wordSpacing
+        // body.style.letterSpacing = request.letterSpacing
+        // body.style.wordSpacing = request.wordSpacing
         
         // adjust inline elements
         paragraphEls.forEach(el => el.style.setProperty('font-style', request.fontStyle, 'important'))

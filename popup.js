@@ -15,7 +15,7 @@ document.getElementById('adjustFonts').addEventListener('click', () => {
             fontSize: "1.2rem",
             lineHeight: "1.5",
             letterSpacing: ".1em",
-            wordSpacing: ".3em",
+            wordSpacing: ".2em",
             fontStyle: "normal",
             fontWeight: "800"
         });
