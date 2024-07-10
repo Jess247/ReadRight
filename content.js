@@ -28,28 +28,9 @@ const removeAds = () => {
     });
 };
 
-const wrapFirstLetter = (text) => {
-    return text.replace(/\b(\w)/g, '<span class="bold-first-letter">$1</span>');
-};
-
-const boldFirstLetterOfWords = (node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-        const span = document.createElement('span');
-        span.innerHTML = wrapFirstLetter(node.textContent);
-        return span;
-    } else {
-        const newNode = node.cloneNode(false); // Shallow clone to avoid duplicating child nodes
-        node.childNodes.forEach(child => {
-            newNode.appendChild(boldFirstLetterOfWords(child));
-        });
-        return newNode;
-    }
-};
 
 const adjustFonts = (request) => {
-    const body = document.body;
-    const newBody = boldFirstLetterOfWords(body);
-    body.replaceWith(newBody);
+   
 
     const css = `
         body, p, li, div {
@@ -88,4 +69,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "removeAds") {
         removeAds();
     }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    removeAds();
 });

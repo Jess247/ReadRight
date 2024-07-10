@@ -29,6 +29,7 @@ $blue-theme: #bde0fe;
     @if($clr == 'dark') {
         background: $dark-theme;
         border: 1px solid $light-theme;
+        color: $txt-clr;
     }
     @if($clr == 'light') {
         background: $light-theme;
