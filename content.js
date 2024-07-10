@@ -1,6 +1,8 @@
+
 console.log('Content script loaded');
 
 const removeAds = () => {
+    // Remove elements related to ads
     const adSelectors = [
         'iframe', 
         '.ad', 
@@ -26,66 +28,57 @@ const removeAds = () => {
             }
         });
     });
-};
+}
 
-const wrapFirstLetter = (text) => {
-    return text.replace(/\b(\w)/g, '<span class="bold-first-letter">$1</span>');
-};
 
-const boldFirstLetterOfWords = (node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-        const span = document.createElement('span');
-        span.innerHTML = wrapFirstLetter(node.textContent);
-        return span;
-    } else {
-        const newNode = node.cloneNode(false); // Shallow clone to avoid duplicating child nodes
-        node.childNodes.forEach(child => {
-            newNode.appendChild(boldFirstLetterOfWords(child));
-        });
-        return newNode;
-    }
-};
 
-const adjustFonts = (request) => {
-    const body = document.body;
-    const newBody = boldFirstLetterOfWords(body);
-    body.replaceWith(newBody);
 
-    const css = `
-        body, p, li, div {
-            font-family: ${request.fontFamily} !important;
-            font-size: ${request.fontSize} !important;
-            line-height: ${request.lineHeight} !important;
-            letter-spacing: ${request.letterSpacing} !important;
-            word-spacing: ${request.wordSpacing} !important;
-            font-style: ${request.fontStyle} !important;
-        }
-        .bold-first-letter {
-            font-weight: bold !important;
-        }
-    `;
-
-    const style = document.createElement('style');
-    style.textContent = css;
-    document.head.appendChild(style);
-
-    removeAds();
-};
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "adjustFonts") {
-        adjustFonts(request);
+        const body = document.body
+        const paragraphEls = document.querySelectorAll('p')
+        const divEls = document.querySelectorAll('div')
+        const emElements = document.querySelectorAll('em')
+        
+
+
+        
+        // first letter bold
+        const newBody = boldFirstLetter(body)
+        body.replaceWith(newBody)
+        
+        // adjust hmtl tag font
+        document.documentElement.style.setProperty('font-family', request.fontFamily, 'important')
+        document.documentElement.style.setProperty('letter-spacing', request.letterSpacing, 'important')
+        document.documentElement.style.setProperty('word-spacing', request.wordSpacing, 'important')
+        document.documentElement.style.fontSize = request.fontSize
+        
+        // adjust body fonts
+        document.body.style.setProperty('font-family', request.fontFamily, 'important')
+
+        divEls.forEach(el => el.style.fontFamily = 'inherit')
+        // body.style.letterSpacing = request.letterSpacing
+        // body.style.wordSpacing = request.wordSpacing
+        
+        // adjust inline elements
+        paragraphEls.forEach(el => el.style.setProperty('font-style', request.fontStyle, 'important'))
+
+        emElements.forEach(el => el.style.fontStyle = request.fontStyle)
+
         sendResponse({ message: 'Readability enhanced' });
     }
 
-    if (request.action === "changeTheme") {
+    if(request.action === "changeTheme") {
         document.querySelectorAll("*").forEach(el => {
-            el.style.backgroundColor = request.background;
-            el.style.color = request.color;
-        });
+            el.style.backgroundColor = request.background
+            el.style.color = request.color
+        })
     }
 
     if (request.action === "removeAds") {
-        removeAds();
+        removeAds()
     }
 });
+
+
