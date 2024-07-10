@@ -1,3 +1,7 @@
+function disableBtn(btnId) {
+    document.getElementById(btnId).disabled =  true
+}
+
 document.getElementById('adjustFonts').addEventListener('click', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(tabs[0].id, {

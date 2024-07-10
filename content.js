@@ -59,10 +59,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     }
 
     if (request.action === "changeTheme") {
-        document.querySelectorAll("*").forEach(el => {
+        document.querySelectorAll('*').forEach(el => {
             el.style.backgroundColor = request.background;
             el.style.color = request.color;
-        });
+        })
+
     }
 
     if (request.action === "removeAds") {
