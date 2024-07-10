@@ -1,27 +1,22 @@
 
-let isOn = false
-
 function disableBtn(btnId) {
     document.getElementById(btnId).disabled = true
 }
-
 document.getElementById('adjustFonts').addEventListener('click', () => {
-    const infoText = document.querySelector('.container__info-text')
-    infoText.textContent = "Refresh page to go back to original styles."
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(tabs[0].id, {
             action: "adjustFonts",
-            fontFamily:'Arial, Helvetica, sans-serif',
+            fontFamily: "Arial, Helvetica, sans-serif",
             fontSize: "1.2rem",
-            lineHeight: "1.5",
+            lineHeight: "1.5em",
             letterSpacing: ".1em",
-            wordSpacing: ".2em",
-            fontStyle: "normal",
-            fontWeight: "800"
+            wordSpacing: ".5em",
+            fontStyle: "normal"
         });
     });
 
-    disableBtn('adjustFonts')
+    disableBtn('adjustFonts');
+    document.getElementById("info-text").textContent = "Refresh page to go back to normal mode."
 });
 
 document.getElementById('dark').addEventListener('click', () => {
@@ -74,12 +69,10 @@ document.getElementById('blue').addEventListener('click', () => {
     });
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
-        chrome.tabs.sendMessage(tabs[0].id,{
-            action:"removeAds"
-        })
-    })
+        chrome.tabs.sendMessage(tabs[0].id, {
+            action: "removeAds"
+        });
+    });
 });
-
