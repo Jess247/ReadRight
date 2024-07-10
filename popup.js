@@ -1,7 +1,3 @@
-
-function disableBtn(btnId) {
-    document.getElementById(btnId).disabled = true
-}
 document.getElementById('adjustFonts').addEventListener('click', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, tabs => {
         chrome.tabs.sendMessage(tabs[0].id, {
@@ -16,7 +12,6 @@ document.getElementById('adjustFonts').addEventListener('click', () => {
     });
 
     disableBtn('adjustFonts');
-    document.getElementById("info-text").textContent = "Refresh page to go back to normal mode."
 });
 
 document.getElementById('dark').addEventListener('click', () => {
